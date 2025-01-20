@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:data.create runInTransaction:true runOnChange:true
 INSERT INTO order_status (value)
 VALUES ('CREATED'), ('IN_PROGRESS'), ('DELIVERY'), ('CANCELLED'), ('FINISHED');
 

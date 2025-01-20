@@ -7,6 +7,8 @@ paths:
     $ref: "./api.yaml#/paths/~1documents~1{documentId}"
   /orders/administrator/{administratorId}:
     $ref: "./api.yaml#/paths/~1orders~1administrator~1{administratorId}"
+  /ping:
+    $ref: "./api.yaml#/paths/~1ping"
   /orders/{orderId}:
     $ref: "./api.yaml#/paths/~1orders~1{orderId}"
   /documents/{orderId}:

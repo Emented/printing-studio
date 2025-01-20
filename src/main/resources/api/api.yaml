@@ -6,6 +6,15 @@ servers:
   - url: http://localhost:8080
     description: Dev server
 paths:
+  /ping:
+    get:
+      tags:
+        - ping
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+
   /user/register:
     put:
       tags:

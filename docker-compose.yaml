@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  printing-studio-1:
+    build: ./
+    container_name: printing-studio-1
+    depends_on:
+      - printing-studio-db
+    networks:
+      - backend
+
+  printing-studio-2:
+    build: ./
+    container_name: printing-studio-2
+    depends_on:
+      - printing-studio-db
+    networks:
+      - backend
+
+  printing-studio-haproxy:
+    build: ./haproxy
+    container_name: printing-studio-haproxy
+    depends_on:
+      - printing-studio-1
+      - printing-studio-2
+    networks:
+      - backend
+    ports:
+      - "9092:9091"
+      - "8080:8080"
+
+  printing-studio-db:
+    image: postgres
+    container_name: printing-studio-db
+    environment:
+      POSTGRES_DB: "course-work"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    command: postgres -p 5432
+    volumes:
+      - pg_data:/var/lib/postgresql
+    networks:
+      - backend
+    ports:
+      - "5433:5432"
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pg_data:
+    driver: local
+  consul_data:
+    driver: local
