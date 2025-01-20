@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:procedures.create runInTransaction:true runOnChange:true splitStatements:false
 -- Процедура для изменения статуса заказа
 CREATE OR REPLACE FUNCTION set_order_status(p_order_id BIGINT, p_status VARCHAR(64))
     RETURNS VOID AS

@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:functions.create runInTransaction:true runOnChange:true splitStatements:false
 -- Возвращает число заказов пользователя
 CREATE OR REPLACE FUNCTION get_customer_orders_count(p_customer_id BIGINT)
     RETURNS BIGINT AS

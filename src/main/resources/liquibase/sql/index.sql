@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:indexes.create runInTransaction:true runOnChange:true
 CREATE INDEX IF NOT EXISTS order_status_creation_date_index ON "order"(status, creation_timestamp);
 
 CREATE INDEX IF NOT EXISTS order_customer_id_index ON "order"(customer_id);
@@ -14,4 +17,9 @@ CREATE INDEX IF NOT EXISTS delivery_type_status_index ON delivery(type, status);
 
 CREATE INDEX IF NOT EXISTS document_order_id_index ON document(order_id);
 
+--changeset ipovetin:extra-indexes.create runInTransaction:true runOnChange:true
+CREATE INDEX IF NOT EXISTS order_status_index ON "order"(status);
+
 CREATE INDEX IF NOT EXISTS business_info_inn_kpp_index ON business_info(inn, kpp);
+
+CREATE INDEX IF NOT EXISTS document_type_index ON document(type);

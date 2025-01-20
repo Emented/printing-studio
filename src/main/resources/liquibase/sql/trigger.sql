@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:triggers.create runInTransaction:true runOnChange:true splitStatements:false
 -- Триггер проверяет, что у одного заказа может быть только 1 документ 1-го типа
 CREATE OR REPLACE FUNCTION unique_type_order_id() RETURNS TRIGGER AS
 $$

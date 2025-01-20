@@ -34,6 +34,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework:spring-tx'
 
+    implementation 'org.liquibase:liquibase-core'
+
     jooqCodegen 'org.postgresql:postgresql'
     runtimeOnly 'org.postgresql:postgresql'
 

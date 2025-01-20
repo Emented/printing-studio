@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset ipovetin:tables.create runInTransaction:true runOnChange:true
 CREATE TABLE IF NOT EXISTS order_status
 (
     id    BIGSERIAL PRIMARY KEY,
