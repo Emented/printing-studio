@@ -1,0 +1,658 @@
+openapi: 3.0.1
+info:
+  title: Printing studio application
+  version: 0.0.01
+servers:
+  - url: http://localhost:8080
+    description: Dev server
+paths:
+  /user/register:
+    put:
+      tags:
+        - user
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatusResponseDto'
+  /user/login:
+    post:
+      tags:
+        - user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+  /orders/{orderId}/status:
+    post:
+      tags:
+        - order
+      operationId: updateOrderStatus
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: targetStatus
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - CREATED
+              - IN_PROGRESS
+              - DELIVERY
+              - CANCELLED
+              - FINISHED
+      responses:
+        '200':
+          description: OK
+  /orders/{orderId}/cancel:
+    post:
+      tags:
+        - order
+      operationId: cancelOrder
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /orders/checkout:
+    post:
+      tags:
+        - order
+      operationId: checkout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatusResponseDto'
+  /documents/{orderId}:
+    post:
+      tags:
+        - document
+      operationId: addDocumentToOrder
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentRequestDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatusResponseDto'
+  /print-setting:
+    get:
+      tags:
+        - print-setting
+      operationId: printSettings
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PrintSettingResponseDto'
+  /orders/{orderId}:
+    get:
+      tags:
+        - order
+      operationId: orderById
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/OrderResponseDto'
+  /orders/customer/{customerId}:
+    get:
+      tags:
+        - order
+      operationId: customerOrders
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponseDto'
+  /orders/administrator/{administratorId}:
+    get:
+      tags:
+        - order
+      operationId: administratorOrders
+      parameters:
+        - name: administratorId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponseDto'
+  /material:
+    get:
+      tags:
+        - material
+      operationId: materials
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MaterialResponseDto'
+  /documents/{documentId}:
+    get:
+      tags:
+        - document
+      operationId: documentById
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DocumentResponseDto'
+  /documents/order/{orderId}:
+    get:
+      tags:
+        - document
+      operationId: documentsByOrderId
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DocumentResponseDto'
+  /customer/{userId}:
+    get:
+      tags:
+        - customer
+      operationId: customerByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CustomerResponseDto'
+  /administrator/{userId}:
+    get:
+      tags:
+        - administrator
+      operationId: administratorByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AdministratorResponseDto'
+components:
+  schemas:
+    BusinessInfoRegisterRequestDto:
+      required:
+        - companyName
+        - inn
+      type: object
+      properties:
+        inn:
+          type: string
+        kpp:
+          type: string
+        companyName:
+          type: string
+    UserRegisterRequestDto:
+      required:
+        - address
+        - email
+        - name
+        - password
+        - phone
+        - surname
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+        patronymic:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        businessInfo:
+          $ref: '#/components/schemas/BusinessInfoRegisterRequestDto'
+    StatusResponseDto:
+      required:
+        - status
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - SUCCESS
+            - ERROR
+        message:
+          type: string
+    UserLoginRequestDto:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    UserResponseDto:
+      required:
+        - accountType
+        - email
+        - id
+        - name
+        - password
+        - phone
+        - surname
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        administratorId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+        surname:
+          type: string
+        patronymic:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        accountType:
+          type: string
+          enum:
+            - CUSTOMER
+            - ADMINISTRATOR
+    CheckoutRequestDto:
+      required:
+        - customerId
+        - deliveryType
+        - description
+        - material
+        - paymentType
+        - printSetting
+        - quantity
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        photoUrl:
+          type: string
+        description:
+          type: string
+        material:
+          type: string
+        printSetting:
+          type: string
+        paymentType:
+          type: string
+          enum:
+            - CARD
+            - INVOICE
+        deliveryType:
+          type: string
+          enum:
+            - COURIER
+            - PICKUP
+        quantity:
+          type: integer
+          format: int32
+    DocumentRequestDto:
+      required:
+        - type
+        - url
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - INVOICE
+            - CUST_FACTURE
+        url:
+          type: string
+    PrintSettingResponseDto:
+      required:
+        - description
+        - price
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        description:
+          type: string
+        price:
+          type: number
+    AdministratorResponseDto:
+      required:
+        - id
+        - user
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserResponseDto'
+    DeliveryResponseDto:
+      required:
+        - id
+        - status
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+            - COURIER
+            - PICKUP
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_PROGRESS
+            - FAILED
+            - FINISHED
+    MaterialResponseDto:
+      required:
+        - availabilityStatus
+        - color
+        - description
+        - id
+        - price
+        - stock
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+            - PLA
+            - ABS
+        availabilityStatus:
+          type: string
+          enum:
+            - AVAILABLE
+            - NOT_AVAILABLE
+            - SPECIAL_ORDER
+        stock:
+          type: integer
+          format: int64
+        description:
+          type: string
+        price:
+          type: number
+        color:
+          type: string
+    OrderResponseDto:
+      required:
+        - delivery
+        - description
+        - id
+        - material
+        - payment
+        - printSetting
+        - quantity
+        - status
+        - totalPrice
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_PROGRESS
+            - DELIVERY
+            - CANCELLED
+            - FINISHED
+        photoUrl:
+          type: string
+        description:
+          type: string
+        material:
+          $ref: '#/components/schemas/MaterialResponseDto'
+        printSetting:
+          $ref: '#/components/schemas/PrintSettingResponseDto'
+        payment:
+          $ref: '#/components/schemas/PaymentResponseDto'
+        delivery:
+          $ref: '#/components/schemas/DeliveryResponseDto'
+        totalPrice:
+          type: number
+        quantity:
+          type: integer
+          format: int32
+        administrator:
+          $ref: '#/components/schemas/AdministratorResponseDto'
+    PaymentResponseDto:
+      required:
+        - id
+        - status
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+            - CARD
+            - INVOICE
+        status:
+          type: string
+          enum:
+            - CREATED
+            - IN_PROGRESS
+            - FAILED
+            - FINISHED
+    DocumentResponseDto:
+      required:
+        - id
+        - type
+        - url
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+            - INVOICE
+            - CUST_FACTURE
+        url:
+          type: string
+    BusinessInfoResponseDto:
+      required:
+        - companyName
+        - id
+        - inn
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inn:
+          type: string
+        kpp:
+          type: string
+        companyName:
+          type: string
+    CustomerResponseDto:
+      required:
+        - id
+        - socialNetworks
+        - user
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserResponseDto'
+        businessInfo:
+          $ref: '#/components/schemas/BusinessInfoResponseDto'
+        socialNetworks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialNetworkResponseDto'
+    SocialNetworkResponseDto:
+      required:
+        - id
+        - link
+        - type
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        link:
+          type: string
+        type:
+          type: string

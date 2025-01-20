@@ -1,0 +1,39 @@
+---
+servers:
+- url: "http://localhost:8080"
+openapi: "3.0.1"
+paths:
+  /documents/{documentId}:
+    $ref: "./api.yaml#/paths/~1documents~1{documentId}"
+  /orders/administrator/{administratorId}:
+    $ref: "./api.yaml#/paths/~1orders~1administrator~1{administratorId}"
+  /orders/{orderId}:
+    $ref: "./api.yaml#/paths/~1orders~1{orderId}"
+  /documents/{orderId}:
+    $ref: "./api.yaml#/paths/~1documents~1{orderId}"
+  /administrator/{userId}:
+    $ref: "./api.yaml#/paths/~1administrator~1{userId}"
+  /customer/{userId}:
+    $ref: "./api.yaml#/paths/~1customer~1{userId}"
+  /orders/{orderId}/cancel:
+    $ref: "./api.yaml#/paths/~1orders~1{orderId}~1cancel"
+  /orders/checkout:
+    $ref: "./api.yaml#/paths/~1orders~1checkout"
+  /material:
+    $ref: "./api.yaml#/paths/~1material"
+  /user/login:
+    $ref: "./api.yaml#/paths/~1user~1login"
+  /documents/order/{orderId}:
+    $ref: "./api.yaml#/paths/~1documents~1order~1{orderId}"
+  /orders/{orderId}/status:
+    $ref: "./api.yaml#/paths/~1orders~1{orderId}~1status"
+  /print-setting:
+    $ref: "./api.yaml#/paths/~1print-setting"
+  /user/register:
+    $ref: "./api.yaml#/paths/~1user~1register"
+  /orders/customer/{customerId}:
+    $ref: "./api.yaml#/paths/~1orders~1customer~1{customerId}"
+info:
+  title: "merged spec"
+  description: "merged spec"
+  version: "1.0.0"

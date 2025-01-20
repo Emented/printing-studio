@@ -6,6 +6,8 @@ import com.emented.printingstudio.dao.OrderDao
 import com.emented.printingstudio.dao.PaymentDao
 import com.emented.printingstudio.dao.PrintSettingDao
 import com.emented.printingstudio.dto.CheckoutRequestDto
+import com.emented.printingstudio.dto.CheckoutRequestDto.DeliveryType
+import com.emented.printingstudio.dto.CheckoutRequestDto.PaymentType
 import com.emented.printingstudio.dto.OrderResponseDto
 import com.emented.printingstudio.extensions.toResponse
 import com.emented.printingstudio.model.Delivery
@@ -14,14 +16,15 @@ import com.emented.printingstudio.model.Order
 import com.emented.printingstudio.model.Payment
 import com.emented.printingstudio.model.PrintSetting
 import com.emented.printingstudio.model.enums.DeliveryStatus
-import com.emented.printingstudio.model.enums.DeliveryType
 import com.emented.printingstudio.model.enums.OrderStatus
 import com.emented.printingstudio.model.enums.PaymentStatus
-import com.emented.printingstudio.model.enums.PaymentType
 import com.emented.printingstudio.service.OrderService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
+
+import com.emented.printingstudio.model.enums.DeliveryType as DomainDeliveryType
+import com.emented.printingstudio.model.enums.PaymentType as DomainPaymentType
 
 @Service
 class OrderServiceImpl(
@@ -72,14 +75,14 @@ class OrderServiceImpl(
 
     private fun createDefaultDelivery(type: DeliveryType): Delivery {
         return Delivery(
-            type = type,
+            type = DomainDeliveryType.valueOf(type.name),
             status = DeliveryStatus.CREATED,
         )
     }
 
     private fun createDefaultPayment(type: PaymentType): Payment {
         return Payment(
-            type = type,
+            type = DomainPaymentType.valueOf(type.name),
             status = PaymentStatus.CREATED,
         )
     }

@@ -1,12 +1,13 @@
 package com.emented.printingstudio.extensions
 
 import com.emented.printingstudio.dto.OrderResponseDto
+import com.emented.printingstudio.dto.OrderResponseDto.Status
 import com.emented.printingstudio.model.Order
 
 fun Order.toResponse(): OrderResponseDto {
     return OrderResponseDto(
         id = this.id!!,
-        status = this.status,
+        status = Status.valueOf(this.status.name),
         photoUrl = this.photoUrl,
         description = this.description,
         material = this.material.toResponse(),

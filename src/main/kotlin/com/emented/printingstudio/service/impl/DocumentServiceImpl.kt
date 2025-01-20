@@ -5,6 +5,7 @@ import com.emented.printingstudio.dto.DocumentRequestDto
 import com.emented.printingstudio.dto.DocumentResponseDto
 import com.emented.printingstudio.extensions.toResponse
 import com.emented.printingstudio.model.Document
+import com.emented.printingstudio.model.enums.DocumentType
 import com.emented.printingstudio.service.DocumentService
 import org.springframework.stereotype.Service
 
@@ -32,7 +33,7 @@ class DocumentServiceImpl(
 
 private fun DocumentRequestDto.toDocumentModel(): Document {
     return Document(
-        type = this.type,
+        type = DocumentType.valueOf(this.type.name),
         url = this.url,
     )
 }

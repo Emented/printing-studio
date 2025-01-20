@@ -1,20 +1,17 @@
 package com.emented.printingstudio.controller
 
+import com.emented.printingstudio.api.PrintSettingApiDelegate
 import com.emented.printingstudio.dto.PrintSettingResponseDto
 import com.emented.printingstudio.service.PrintSettingService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.stereotype.Service
 
-@RestController
-@RequestMapping("/print-setting")
-class PrintSettingController(
+@Service
+class PrintSettingApiService(
     private val printSettingService: PrintSettingService,
-) {
+) : PrintSettingApiDelegate {
 
-    @GetMapping
-    fun printSettings(): ResponseEntity<List<PrintSettingResponseDto>> {
+    override fun printSettings(): ResponseEntity<List<PrintSettingResponseDto>> {
         return ResponseEntity.ok(printSettingService.printSettings())
     }
 }

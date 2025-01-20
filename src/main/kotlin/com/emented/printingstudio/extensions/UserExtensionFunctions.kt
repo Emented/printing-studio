@@ -1,7 +1,7 @@
 package com.emented.printingstudio.extensions
 
-import com.emented.printingstudio.dto.AccountType
 import com.emented.printingstudio.dto.UserResponseDto
+import com.emented.printingstudio.dto.UserResponseDto.AccountType
 import com.emented.printingstudio.model.User
 
 fun User.toResponse(customerId: Long?, administratorId: Long?): UserResponseDto {

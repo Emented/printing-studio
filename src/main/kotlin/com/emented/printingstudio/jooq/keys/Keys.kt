@@ -3,9 +3,12 @@
  */
 package com.emented.printingstudio.jooq.keys
 
+
 import com.emented.printingstudio.jooq.tables.Administrator
 import com.emented.printingstudio.jooq.tables.AvailabilityStatus
 import com.emented.printingstudio.jooq.tables.BusinessInfo
+import com.emented.printingstudio.jooq.tables.Car
+import com.emented.printingstudio.jooq.tables.Client
 import com.emented.printingstudio.jooq.tables.Customer
 import com.emented.printingstudio.jooq.tables.CustomerSocialNetwork
 import com.emented.printingstudio.jooq.tables.Delivery
@@ -26,6 +29,8 @@ import com.emented.printingstudio.jooq.tables.User
 import com.emented.printingstudio.jooq.tables.records.AdministratorRecord
 import com.emented.printingstudio.jooq.tables.records.AvailabilityStatusRecord
 import com.emented.printingstudio.jooq.tables.records.BusinessInfoRecord
+import com.emented.printingstudio.jooq.tables.records.CarRecord
+import com.emented.printingstudio.jooq.tables.records.ClientRecord
 import com.emented.printingstudio.jooq.tables.records.CustomerRecord
 import com.emented.printingstudio.jooq.tables.records.CustomerSocialNetworkRecord
 import com.emented.printingstudio.jooq.tables.records.DeliveryRecord
@@ -43,340 +48,75 @@ import com.emented.printingstudio.jooq.tables.records.PaymentTypeRecord
 import com.emented.printingstudio.jooq.tables.records.PrintSettingRecord
 import com.emented.printingstudio.jooq.tables.records.SocialNetworkRecord
 import com.emented.printingstudio.jooq.tables.records.UserRecord
+
 import org.jooq.ForeignKey
 import org.jooq.UniqueKey
 import org.jooq.impl.DSL
 import org.jooq.impl.Internal
 
+
+
 // -------------------------------------------------------------------------
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
-val ADMINISTRATOR_PKEY: UniqueKey<AdministratorRecord> = Internal.createUniqueKey(
-    Administrator.ADMINISTRATOR,
-    DSL.name("administrator_pkey"),
-    arrayOf(Administrator.ADMINISTRATOR.ID),
-    true,
-)
-val ADMINISTRATOR_USER_ID_KEY: UniqueKey<AdministratorRecord> = Internal.createUniqueKey(
-    Administrator.ADMINISTRATOR,
-    DSL.name("administrator_user_id_key"),
-    arrayOf(Administrator.ADMINISTRATOR.USER_ID),
-    true,
-)
-val AVAILABILITY_STATUS_PKEY: UniqueKey<AvailabilityStatusRecord> = Internal.createUniqueKey(
-    AvailabilityStatus.AVAILABILITY_STATUS,
-    DSL.name("availability_status_pkey"),
-    arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.ID),
-    true,
-)
-val AVAILABILITY_STATUS_VALUE_KEY: UniqueKey<AvailabilityStatusRecord> = Internal.createUniqueKey(
-    AvailabilityStatus.AVAILABILITY_STATUS,
-    DSL.name("availability_status_value_key"),
-    arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.VALUE),
-    true,
-)
-val BUSINESS_INFO_PKEY: UniqueKey<BusinessInfoRecord> = Internal.createUniqueKey(
-    BusinessInfo.BUSINESS_INFO,
-    DSL.name("business_info_pkey"),
-    arrayOf(BusinessInfo.BUSINESS_INFO.ID),
-    true,
-)
-val CUSTOMER_PKEY: UniqueKey<CustomerRecord> =
-    Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("customer_pkey"), arrayOf(Customer.CUSTOMER.ID), true)
-val CUSTOMER_USER_ID_KEY: UniqueKey<CustomerRecord> = Internal.createUniqueKey(
-    Customer.CUSTOMER,
-    DSL.name("customer_user_id_key"),
-    arrayOf(Customer.CUSTOMER.USER_ID),
-    true,
-)
-val CUSTOMER_SOCIAL_NETWORK_PKEY: UniqueKey<CustomerSocialNetworkRecord> = Internal.createUniqueKey(
-    CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK,
-    DSL.name("customer_social_network_pkey"),
-    arrayOf(
-        CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.CUSTOMER_ID,
-        CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.SOCIAL_NETWORK_ID,
-    ),
-    true,
-)
-val DELIVERY_PKEY: UniqueKey<DeliveryRecord> =
-    Internal.createUniqueKey(Delivery.DELIVERY, DSL.name("delivery_pkey"), arrayOf(Delivery.DELIVERY.ID), true)
-val DELIVERY_STATUS_PKEY: UniqueKey<DeliveryStatusRecord> = Internal.createUniqueKey(
-    DeliveryStatus.DELIVERY_STATUS,
-    DSL.name("delivery_status_pkey"),
-    arrayOf(DeliveryStatus.DELIVERY_STATUS.ID),
-    true,
-)
-val DELIVERY_STATUS_VALUE_KEY: UniqueKey<DeliveryStatusRecord> = Internal.createUniqueKey(
-    DeliveryStatus.DELIVERY_STATUS,
-    DSL.name("delivery_status_value_key"),
-    arrayOf(DeliveryStatus.DELIVERY_STATUS.VALUE),
-    true,
-)
-val DELIVERY_TYPE_PKEY: UniqueKey<DeliveryTypeRecord> = Internal.createUniqueKey(
-    DeliveryType.DELIVERY_TYPE,
-    DSL.name("delivery_type_pkey"),
-    arrayOf(DeliveryType.DELIVERY_TYPE.ID),
-    true,
-)
-val DELIVERY_TYPE_VALUE_KEY: UniqueKey<DeliveryTypeRecord> = Internal.createUniqueKey(
-    DeliveryType.DELIVERY_TYPE,
-    DSL.name("delivery_type_value_key"),
-    arrayOf(DeliveryType.DELIVERY_TYPE.VALUE),
-    true,
-)
-val DOCUMENT_PKEY: UniqueKey<DocumentRecord> =
-    Internal.createUniqueKey(Document.DOCUMENT, DSL.name("document_pkey"), arrayOf(Document.DOCUMENT.ID), true)
-val DOCUMENT_TYPE_PKEY: UniqueKey<DocumentTypeRecord> = Internal.createUniqueKey(
-    DocumentType.DOCUMENT_TYPE,
-    DSL.name("document_type_pkey"),
-    arrayOf(DocumentType.DOCUMENT_TYPE.ID),
-    true,
-)
-val DOCUMENT_TYPE_VALUE_KEY: UniqueKey<DocumentTypeRecord> = Internal.createUniqueKey(
-    DocumentType.DOCUMENT_TYPE,
-    DSL.name("document_type_value_key"),
-    arrayOf(DocumentType.DOCUMENT_TYPE.VALUE),
-    true,
-)
-val FILAMENT_TYPE_PKEY: UniqueKey<FilamentTypeRecord> = Internal.createUniqueKey(
-    FilamentType.FILAMENT_TYPE,
-    DSL.name("filament_type_pkey"),
-    arrayOf(FilamentType.FILAMENT_TYPE.ID),
-    true,
-)
-val FILAMENT_TYPE_VALUE_KEY: UniqueKey<FilamentTypeRecord> = Internal.createUniqueKey(
-    FilamentType.FILAMENT_TYPE,
-    DSL.name("filament_type_value_key"),
-    arrayOf(FilamentType.FILAMENT_TYPE.VALUE),
-    true,
-)
-val MATERIAL_PKEY: UniqueKey<MaterialRecord> =
-    Internal.createUniqueKey(Material.MATERIAL, DSL.name("material_pkey"), arrayOf(Material.MATERIAL.ID), true)
-val ORDER_PKEY: UniqueKey<OrderRecord> =
-    Internal.createUniqueKey(Order.ORDER, DSL.name("order_pkey"), arrayOf(Order.ORDER.ID), true)
-val ORDER_STATUS_PKEY: UniqueKey<OrderStatusRecord> = Internal.createUniqueKey(
-    OrderStatus.ORDER_STATUS,
-    DSL.name("order_status_pkey"),
-    arrayOf(OrderStatus.ORDER_STATUS.ID),
-    true,
-)
-val ORDER_STATUS_VALUE_KEY: UniqueKey<OrderStatusRecord> = Internal.createUniqueKey(
-    OrderStatus.ORDER_STATUS,
-    DSL.name("order_status_value_key"),
-    arrayOf(OrderStatus.ORDER_STATUS.VALUE),
-    true,
-)
-val PAYMENT_PKEY: UniqueKey<PaymentRecord> =
-    Internal.createUniqueKey(Payment.PAYMENT, DSL.name("payment_pkey"), arrayOf(Payment.PAYMENT.ID), true)
-val PAYMENT_STATUS_PKEY: UniqueKey<PaymentStatusRecord> = Internal.createUniqueKey(
-    PaymentStatus.PAYMENT_STATUS,
-    DSL.name("payment_status_pkey"),
-    arrayOf(PaymentStatus.PAYMENT_STATUS.ID),
-    true,
-)
-val PAYMENT_STATUS_VALUE_KEY: UniqueKey<PaymentStatusRecord> = Internal.createUniqueKey(
-    PaymentStatus.PAYMENT_STATUS,
-    DSL.name("payment_status_value_key"),
-    arrayOf(PaymentStatus.PAYMENT_STATUS.VALUE),
-    true,
-)
-val PAYMENT_TYPE_PKEY: UniqueKey<PaymentTypeRecord> = Internal.createUniqueKey(
-    PaymentType.PAYMENT_TYPE,
-    DSL.name("payment_type_pkey"),
-    arrayOf(PaymentType.PAYMENT_TYPE.ID),
-    true,
-)
-val PAYMENT_TYPE_VALUE_KEY: UniqueKey<PaymentTypeRecord> = Internal.createUniqueKey(
-    PaymentType.PAYMENT_TYPE,
-    DSL.name("payment_type_value_key"),
-    arrayOf(PaymentType.PAYMENT_TYPE.VALUE),
-    true,
-)
-val PRINT_SETTING_PKEY: UniqueKey<PrintSettingRecord> = Internal.createUniqueKey(
-    PrintSetting.PRINT_SETTING,
-    DSL.name("print_setting_pkey"),
-    arrayOf(PrintSetting.PRINT_SETTING.ID),
-    true,
-)
-val SOCIAL_NETWORK_PKEY: UniqueKey<SocialNetworkRecord> = Internal.createUniqueKey(
-    SocialNetwork.SOCIAL_NETWORK,
-    DSL.name("social_network_pkey"),
-    arrayOf(SocialNetwork.SOCIAL_NETWORK.ID),
-    true,
-)
-val USER_EMAIL_KEY: UniqueKey<UserRecord> =
-    Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), arrayOf(User.USER.EMAIL), true)
-val USER_PKEY: UniqueKey<UserRecord> =
-    Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), arrayOf(User.USER.ID), true)
-val USER_USERNAME_KEY: UniqueKey<UserRecord> =
-    Internal.createUniqueKey(User.USER, DSL.name("user_username_key"), arrayOf(User.USER.USERNAME), true)
+val ADMINISTRATOR_PKEY: UniqueKey<AdministratorRecord> = Internal.createUniqueKey(Administrator.ADMINISTRATOR, DSL.name("administrator_pkey"), arrayOf(Administrator.ADMINISTRATOR.ID), true)
+val ADMINISTRATOR_USER_ID_KEY: UniqueKey<AdministratorRecord> = Internal.createUniqueKey(Administrator.ADMINISTRATOR, DSL.name("administrator_user_id_key"), arrayOf(Administrator.ADMINISTRATOR.USER_ID), true)
+val AVAILABILITY_STATUS_PKEY: UniqueKey<AvailabilityStatusRecord> = Internal.createUniqueKey(AvailabilityStatus.AVAILABILITY_STATUS, DSL.name("availability_status_pkey"), arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.ID), true)
+val AVAILABILITY_STATUS_VALUE_KEY: UniqueKey<AvailabilityStatusRecord> = Internal.createUniqueKey(AvailabilityStatus.AVAILABILITY_STATUS, DSL.name("availability_status_value_key"), arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.VALUE), true)
+val BUSINESS_INFO_PKEY: UniqueKey<BusinessInfoRecord> = Internal.createUniqueKey(BusinessInfo.BUSINESS_INFO, DSL.name("business_info_pkey"), arrayOf(BusinessInfo.BUSINESS_INFO.ID), true)
+val CAR_PKEY: UniqueKey<CarRecord> = Internal.createUniqueKey(Car.CAR, DSL.name("car_pkey"), arrayOf(Car.CAR.ID), true)
+val CLIENT_PKEY: UniqueKey<ClientRecord> = Internal.createUniqueKey(Client.CLIENT, DSL.name("client_pkey"), arrayOf(Client.CLIENT.ID), true)
+val CUSTOMER_PKEY: UniqueKey<CustomerRecord> = Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("customer_pkey"), arrayOf(Customer.CUSTOMER.ID), true)
+val CUSTOMER_USER_ID_KEY: UniqueKey<CustomerRecord> = Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("customer_user_id_key"), arrayOf(Customer.CUSTOMER.USER_ID), true)
+val CUSTOMER_SOCIAL_NETWORK_PKEY: UniqueKey<CustomerSocialNetworkRecord> = Internal.createUniqueKey(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK, DSL.name("customer_social_network_pkey"), arrayOf(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.CUSTOMER_ID, CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.SOCIAL_NETWORK_ID), true)
+val DELIVERY_PKEY: UniqueKey<DeliveryRecord> = Internal.createUniqueKey(Delivery.DELIVERY, DSL.name("delivery_pkey"), arrayOf(Delivery.DELIVERY.ID), true)
+val DELIVERY_STATUS_PKEY: UniqueKey<DeliveryStatusRecord> = Internal.createUniqueKey(DeliveryStatus.DELIVERY_STATUS, DSL.name("delivery_status_pkey"), arrayOf(DeliveryStatus.DELIVERY_STATUS.ID), true)
+val DELIVERY_STATUS_VALUE_KEY: UniqueKey<DeliveryStatusRecord> = Internal.createUniqueKey(DeliveryStatus.DELIVERY_STATUS, DSL.name("delivery_status_value_key"), arrayOf(DeliveryStatus.DELIVERY_STATUS.VALUE), true)
+val DELIVERY_TYPE_PKEY: UniqueKey<DeliveryTypeRecord> = Internal.createUniqueKey(DeliveryType.DELIVERY_TYPE, DSL.name("delivery_type_pkey"), arrayOf(DeliveryType.DELIVERY_TYPE.ID), true)
+val DELIVERY_TYPE_VALUE_KEY: UniqueKey<DeliveryTypeRecord> = Internal.createUniqueKey(DeliveryType.DELIVERY_TYPE, DSL.name("delivery_type_value_key"), arrayOf(DeliveryType.DELIVERY_TYPE.VALUE), true)
+val DOCUMENT_PKEY: UniqueKey<DocumentRecord> = Internal.createUniqueKey(Document.DOCUMENT, DSL.name("document_pkey"), arrayOf(Document.DOCUMENT.ID), true)
+val DOCUMENT_TYPE_PKEY: UniqueKey<DocumentTypeRecord> = Internal.createUniqueKey(DocumentType.DOCUMENT_TYPE, DSL.name("document_type_pkey"), arrayOf(DocumentType.DOCUMENT_TYPE.ID), true)
+val DOCUMENT_TYPE_VALUE_KEY: UniqueKey<DocumentTypeRecord> = Internal.createUniqueKey(DocumentType.DOCUMENT_TYPE, DSL.name("document_type_value_key"), arrayOf(DocumentType.DOCUMENT_TYPE.VALUE), true)
+val FILAMENT_TYPE_PKEY: UniqueKey<FilamentTypeRecord> = Internal.createUniqueKey(FilamentType.FILAMENT_TYPE, DSL.name("filament_type_pkey"), arrayOf(FilamentType.FILAMENT_TYPE.ID), true)
+val FILAMENT_TYPE_VALUE_KEY: UniqueKey<FilamentTypeRecord> = Internal.createUniqueKey(FilamentType.FILAMENT_TYPE, DSL.name("filament_type_value_key"), arrayOf(FilamentType.FILAMENT_TYPE.VALUE), true)
+val MATERIAL_PKEY: UniqueKey<MaterialRecord> = Internal.createUniqueKey(Material.MATERIAL, DSL.name("material_pkey"), arrayOf(Material.MATERIAL.ID), true)
+val ORDER_PKEY: UniqueKey<OrderRecord> = Internal.createUniqueKey(Order.ORDER, DSL.name("order_pkey"), arrayOf(Order.ORDER.ID), true)
+val ORDER_STATUS_PKEY: UniqueKey<OrderStatusRecord> = Internal.createUniqueKey(OrderStatus.ORDER_STATUS, DSL.name("order_status_pkey"), arrayOf(OrderStatus.ORDER_STATUS.ID), true)
+val ORDER_STATUS_VALUE_KEY: UniqueKey<OrderStatusRecord> = Internal.createUniqueKey(OrderStatus.ORDER_STATUS, DSL.name("order_status_value_key"), arrayOf(OrderStatus.ORDER_STATUS.VALUE), true)
+val PAYMENT_PKEY: UniqueKey<PaymentRecord> = Internal.createUniqueKey(Payment.PAYMENT, DSL.name("payment_pkey"), arrayOf(Payment.PAYMENT.ID), true)
+val PAYMENT_STATUS_PKEY: UniqueKey<PaymentStatusRecord> = Internal.createUniqueKey(PaymentStatus.PAYMENT_STATUS, DSL.name("payment_status_pkey"), arrayOf(PaymentStatus.PAYMENT_STATUS.ID), true)
+val PAYMENT_STATUS_VALUE_KEY: UniqueKey<PaymentStatusRecord> = Internal.createUniqueKey(PaymentStatus.PAYMENT_STATUS, DSL.name("payment_status_value_key"), arrayOf(PaymentStatus.PAYMENT_STATUS.VALUE), true)
+val PAYMENT_TYPE_PKEY: UniqueKey<PaymentTypeRecord> = Internal.createUniqueKey(PaymentType.PAYMENT_TYPE, DSL.name("payment_type_pkey"), arrayOf(PaymentType.PAYMENT_TYPE.ID), true)
+val PAYMENT_TYPE_VALUE_KEY: UniqueKey<PaymentTypeRecord> = Internal.createUniqueKey(PaymentType.PAYMENT_TYPE, DSL.name("payment_type_value_key"), arrayOf(PaymentType.PAYMENT_TYPE.VALUE), true)
+val PRINT_SETTING_PKEY: UniqueKey<PrintSettingRecord> = Internal.createUniqueKey(PrintSetting.PRINT_SETTING, DSL.name("print_setting_pkey"), arrayOf(PrintSetting.PRINT_SETTING.ID), true)
+val SOCIAL_NETWORK_PKEY: UniqueKey<SocialNetworkRecord> = Internal.createUniqueKey(SocialNetwork.SOCIAL_NETWORK, DSL.name("social_network_pkey"), arrayOf(SocialNetwork.SOCIAL_NETWORK.ID), true)
+val USER_EMAIL_KEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), arrayOf(User.USER.EMAIL), true)
+val USER_PKEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), arrayOf(User.USER.ID), true)
+val USER_USERNAME_KEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_username_key"), arrayOf(User.USER.USERNAME), true)
 
 // -------------------------------------------------------------------------
 // FOREIGN KEY definitions
 // -------------------------------------------------------------------------
 
-val ADMINISTRATOR__ADMINISTRATOR_USER_ID_FKEY: ForeignKey<AdministratorRecord, UserRecord> = Internal.createForeignKey(
-    Administrator.ADMINISTRATOR,
-    DSL.name("administrator_user_id_fkey"),
-    arrayOf(Administrator.ADMINISTRATOR.USER_ID),
-    USER_PKEY,
-    arrayOf(User.USER.ID),
-    true,
-)
-val CUSTOMER__CUSTOMER_BUSINESS_INFO_ID_FKEY: ForeignKey<CustomerRecord, BusinessInfoRecord> =
-    Internal.createForeignKey(
-        Customer.CUSTOMER,
-        DSL.name("customer_business_info_id_fkey"),
-        arrayOf(Customer.CUSTOMER.BUSINESS_INFO_ID),
-        BUSINESS_INFO_PKEY,
-        arrayOf(BusinessInfo.BUSINESS_INFO.ID),
-        true,
-    )
-val CUSTOMER__CUSTOMER_USER_ID_FKEY: ForeignKey<CustomerRecord, UserRecord> = Internal.createForeignKey(
-    Customer.CUSTOMER,
-    DSL.name("customer_user_id_fkey"),
-    arrayOf(Customer.CUSTOMER.USER_ID),
-    USER_PKEY,
-    arrayOf(User.USER.ID),
-    true,
-)
-val CUSTOMER_SOCIAL_NETWORK__CUSTOMER_SOCIAL_NETWORK_CUSTOMER_ID_FKEY: ForeignKey<CustomerSocialNetworkRecord, CustomerRecord> =
-    Internal.createForeignKey(
-        CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK,
-        DSL.name("customer_social_network_customer_id_fkey"),
-        arrayOf(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.CUSTOMER_ID),
-        CUSTOMER_PKEY,
-        arrayOf(Customer.CUSTOMER.ID),
-        true,
-    )
-val CUSTOMER_SOCIAL_NETWORK__CUSTOMER_SOCIAL_NETWORK_SOCIAL_NETWORK_ID_FKEY: ForeignKey<CustomerSocialNetworkRecord, SocialNetworkRecord> =
-    Internal.createForeignKey(
-        CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK,
-        DSL.name("customer_social_network_social_network_id_fkey"),
-        arrayOf(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.SOCIAL_NETWORK_ID),
-        SOCIAL_NETWORK_PKEY,
-        arrayOf(SocialNetwork.SOCIAL_NETWORK.ID),
-        true,
-    )
-val DELIVERY__DELIVERY_STATUS_FKEY: ForeignKey<DeliveryRecord, DeliveryStatusRecord> = Internal.createForeignKey(
-    Delivery.DELIVERY,
-    DSL.name("delivery_status_fkey"),
-    arrayOf(Delivery.DELIVERY.STATUS),
-    DELIVERY_STATUS_PKEY,
-    arrayOf(DeliveryStatus.DELIVERY_STATUS.ID),
-    true,
-)
-val DELIVERY__DELIVERY_TYPE_FKEY: ForeignKey<DeliveryRecord, DeliveryTypeRecord> = Internal.createForeignKey(
-    Delivery.DELIVERY,
-    DSL.name("delivery_type_fkey"),
-    arrayOf(Delivery.DELIVERY.TYPE),
-    DELIVERY_TYPE_PKEY,
-    arrayOf(DeliveryType.DELIVERY_TYPE.ID),
-    true,
-)
-val DOCUMENT__DOCUMENT_ORDER_ID_FKEY: ForeignKey<DocumentRecord, OrderRecord> = Internal.createForeignKey(
-    Document.DOCUMENT,
-    DSL.name("document_order_id_fkey"),
-    arrayOf(Document.DOCUMENT.ORDER_ID),
-    ORDER_PKEY,
-    arrayOf(Order.ORDER.ID),
-    true,
-)
-val DOCUMENT__DOCUMENT_TYPE_FKEY: ForeignKey<DocumentRecord, DocumentTypeRecord> = Internal.createForeignKey(
-    Document.DOCUMENT,
-    DSL.name("document_type_fkey"),
-    arrayOf(Document.DOCUMENT.TYPE),
-    DOCUMENT_TYPE_PKEY,
-    arrayOf(DocumentType.DOCUMENT_TYPE.ID),
-    true,
-)
-val MATERIAL__MATERIAL_AVAILABILITY_STATUS_FKEY: ForeignKey<MaterialRecord, AvailabilityStatusRecord> =
-    Internal.createForeignKey(
-        Material.MATERIAL,
-        DSL.name("material_availability_status_fkey"),
-        arrayOf(Material.MATERIAL.AVAILABILITY_STATUS),
-        AVAILABILITY_STATUS_PKEY,
-        arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.ID),
-        true,
-    )
-val MATERIAL__MATERIAL_TYPE_FKEY: ForeignKey<MaterialRecord, FilamentTypeRecord> = Internal.createForeignKey(
-    Material.MATERIAL,
-    DSL.name("material_type_fkey"),
-    arrayOf(Material.MATERIAL.TYPE),
-    FILAMENT_TYPE_PKEY,
-    arrayOf(FilamentType.FILAMENT_TYPE.ID),
-    true,
-)
-val ORDER__ORDER_ADMINISTRATOR_ID_FKEY: ForeignKey<OrderRecord, AdministratorRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_administrator_id_fkey"),
-    arrayOf(Order.ORDER.ADMINISTRATOR_ID),
-    ADMINISTRATOR_PKEY,
-    arrayOf(Administrator.ADMINISTRATOR.ID),
-    true,
-)
-val ORDER__ORDER_CUSTOMER_ID_FKEY: ForeignKey<OrderRecord, CustomerRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_customer_id_fkey"),
-    arrayOf(Order.ORDER.CUSTOMER_ID),
-    CUSTOMER_PKEY,
-    arrayOf(Customer.CUSTOMER.ID),
-    true,
-)
-val ORDER__ORDER_DELIVERY_ID_FKEY: ForeignKey<OrderRecord, DeliveryRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_delivery_id_fkey"),
-    arrayOf(Order.ORDER.DELIVERY_ID),
-    DELIVERY_PKEY,
-    arrayOf(Delivery.DELIVERY.ID),
-    true,
-)
-val ORDER__ORDER_MATERIAL_ID_FKEY: ForeignKey<OrderRecord, MaterialRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_material_id_fkey"),
-    arrayOf(Order.ORDER.MATERIAL_ID),
-    MATERIAL_PKEY,
-    arrayOf(Material.MATERIAL.ID),
-    true,
-)
-val ORDER__ORDER_PAYMENT_ID_FKEY: ForeignKey<OrderRecord, PaymentRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_payment_id_fkey"),
-    arrayOf(Order.ORDER.PAYMENT_ID),
-    PAYMENT_PKEY,
-    arrayOf(Payment.PAYMENT.ID),
-    true,
-)
-val ORDER__ORDER_PRINT_SETTING_ID_FKEY: ForeignKey<OrderRecord, PrintSettingRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_print_setting_id_fkey"),
-    arrayOf(Order.ORDER.PRINT_SETTING_ID),
-    PRINT_SETTING_PKEY,
-    arrayOf(PrintSetting.PRINT_SETTING.ID),
-    true,
-)
-val ORDER__ORDER_STATUS_FKEY: ForeignKey<OrderRecord, OrderStatusRecord> = Internal.createForeignKey(
-    Order.ORDER,
-    DSL.name("order_status_fkey"),
-    arrayOf(Order.ORDER.STATUS),
-    ORDER_STATUS_PKEY,
-    arrayOf(OrderStatus.ORDER_STATUS.ID),
-    true,
-)
-val PAYMENT__PAYMENT_STATUS_FKEY: ForeignKey<PaymentRecord, PaymentStatusRecord> = Internal.createForeignKey(
-    Payment.PAYMENT,
-    DSL.name("payment_status_fkey"),
-    arrayOf(Payment.PAYMENT.STATUS),
-    PAYMENT_STATUS_PKEY,
-    arrayOf(PaymentStatus.PAYMENT_STATUS.ID),
-    true,
-)
-val PAYMENT__PAYMENT_TYPE_FKEY: ForeignKey<PaymentRecord, PaymentTypeRecord> = Internal.createForeignKey(
-    Payment.PAYMENT,
-    DSL.name("payment_type_fkey"),
-    arrayOf(Payment.PAYMENT.TYPE),
-    PAYMENT_TYPE_PKEY,
-    arrayOf(PaymentType.PAYMENT_TYPE.ID),
-    true,
-)
+val ADMINISTRATOR__ADMINISTRATOR_USER_ID_FKEY: ForeignKey<AdministratorRecord, UserRecord> = Internal.createForeignKey(Administrator.ADMINISTRATOR, DSL.name("administrator_user_id_fkey"), arrayOf(Administrator.ADMINISTRATOR.USER_ID), com.emented.printingstudio.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val CAR__CAR_CLIENT_ID_FKEY: ForeignKey<CarRecord, ClientRecord> = Internal.createForeignKey(Car.CAR, DSL.name("car_client_id_fkey"), arrayOf(Car.CAR.CLIENT_ID), com.emented.printingstudio.jooq.keys.CLIENT_PKEY, arrayOf(Client.CLIENT.ID), true)
+val CUSTOMER__CUSTOMER_BUSINESS_INFO_ID_FKEY: ForeignKey<CustomerRecord, BusinessInfoRecord> = Internal.createForeignKey(Customer.CUSTOMER, DSL.name("customer_business_info_id_fkey"), arrayOf(Customer.CUSTOMER.BUSINESS_INFO_ID), com.emented.printingstudio.jooq.keys.BUSINESS_INFO_PKEY, arrayOf(BusinessInfo.BUSINESS_INFO.ID), true)
+val CUSTOMER__CUSTOMER_USER_ID_FKEY: ForeignKey<CustomerRecord, UserRecord> = Internal.createForeignKey(Customer.CUSTOMER, DSL.name("customer_user_id_fkey"), arrayOf(Customer.CUSTOMER.USER_ID), com.emented.printingstudio.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val CUSTOMER_SOCIAL_NETWORK__CUSTOMER_SOCIAL_NETWORK_CUSTOMER_ID_FKEY: ForeignKey<CustomerSocialNetworkRecord, CustomerRecord> = Internal.createForeignKey(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK, DSL.name("customer_social_network_customer_id_fkey"), arrayOf(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.CUSTOMER_ID), com.emented.printingstudio.jooq.keys.CUSTOMER_PKEY, arrayOf(Customer.CUSTOMER.ID), true)
+val CUSTOMER_SOCIAL_NETWORK__CUSTOMER_SOCIAL_NETWORK_SOCIAL_NETWORK_ID_FKEY: ForeignKey<CustomerSocialNetworkRecord, SocialNetworkRecord> = Internal.createForeignKey(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK, DSL.name("customer_social_network_social_network_id_fkey"), arrayOf(CustomerSocialNetwork.CUSTOMER_SOCIAL_NETWORK.SOCIAL_NETWORK_ID), com.emented.printingstudio.jooq.keys.SOCIAL_NETWORK_PKEY, arrayOf(SocialNetwork.SOCIAL_NETWORK.ID), true)
+val DELIVERY__DELIVERY_STATUS_FKEY: ForeignKey<DeliveryRecord, DeliveryStatusRecord> = Internal.createForeignKey(Delivery.DELIVERY, DSL.name("delivery_status_fkey"), arrayOf(Delivery.DELIVERY.STATUS), com.emented.printingstudio.jooq.keys.DELIVERY_STATUS_PKEY, arrayOf(DeliveryStatus.DELIVERY_STATUS.ID), true)
+val DELIVERY__DELIVERY_TYPE_FKEY: ForeignKey<DeliveryRecord, DeliveryTypeRecord> = Internal.createForeignKey(Delivery.DELIVERY, DSL.name("delivery_type_fkey"), arrayOf(Delivery.DELIVERY.TYPE), com.emented.printingstudio.jooq.keys.DELIVERY_TYPE_PKEY, arrayOf(DeliveryType.DELIVERY_TYPE.ID), true)
+val DOCUMENT__DOCUMENT_ORDER_ID_FKEY: ForeignKey<DocumentRecord, OrderRecord> = Internal.createForeignKey(Document.DOCUMENT, DSL.name("document_order_id_fkey"), arrayOf(Document.DOCUMENT.ORDER_ID), com.emented.printingstudio.jooq.keys.ORDER_PKEY, arrayOf(Order.ORDER.ID), true)
+val DOCUMENT__DOCUMENT_TYPE_FKEY: ForeignKey<DocumentRecord, DocumentTypeRecord> = Internal.createForeignKey(Document.DOCUMENT, DSL.name("document_type_fkey"), arrayOf(Document.DOCUMENT.TYPE), com.emented.printingstudio.jooq.keys.DOCUMENT_TYPE_PKEY, arrayOf(DocumentType.DOCUMENT_TYPE.ID), true)
+val MATERIAL__MATERIAL_AVAILABILITY_STATUS_FKEY: ForeignKey<MaterialRecord, AvailabilityStatusRecord> = Internal.createForeignKey(Material.MATERIAL, DSL.name("material_availability_status_fkey"), arrayOf(Material.MATERIAL.AVAILABILITY_STATUS), com.emented.printingstudio.jooq.keys.AVAILABILITY_STATUS_PKEY, arrayOf(AvailabilityStatus.AVAILABILITY_STATUS.ID), true)
+val MATERIAL__MATERIAL_TYPE_FKEY: ForeignKey<MaterialRecord, FilamentTypeRecord> = Internal.createForeignKey(Material.MATERIAL, DSL.name("material_type_fkey"), arrayOf(Material.MATERIAL.TYPE), com.emented.printingstudio.jooq.keys.FILAMENT_TYPE_PKEY, arrayOf(FilamentType.FILAMENT_TYPE.ID), true)
+val ORDER__ORDER_ADMINISTRATOR_ID_FKEY: ForeignKey<OrderRecord, AdministratorRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_administrator_id_fkey"), arrayOf(Order.ORDER.ADMINISTRATOR_ID), com.emented.printingstudio.jooq.keys.ADMINISTRATOR_PKEY, arrayOf(Administrator.ADMINISTRATOR.ID), true)
+val ORDER__ORDER_CUSTOMER_ID_FKEY: ForeignKey<OrderRecord, CustomerRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_customer_id_fkey"), arrayOf(Order.ORDER.CUSTOMER_ID), com.emented.printingstudio.jooq.keys.CUSTOMER_PKEY, arrayOf(Customer.CUSTOMER.ID), true)
+val ORDER__ORDER_DELIVERY_ID_FKEY: ForeignKey<OrderRecord, DeliveryRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_delivery_id_fkey"), arrayOf(Order.ORDER.DELIVERY_ID), com.emented.printingstudio.jooq.keys.DELIVERY_PKEY, arrayOf(Delivery.DELIVERY.ID), true)
+val ORDER__ORDER_MATERIAL_ID_FKEY: ForeignKey<OrderRecord, MaterialRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_material_id_fkey"), arrayOf(Order.ORDER.MATERIAL_ID), com.emented.printingstudio.jooq.keys.MATERIAL_PKEY, arrayOf(Material.MATERIAL.ID), true)
+val ORDER__ORDER_PAYMENT_ID_FKEY: ForeignKey<OrderRecord, PaymentRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_payment_id_fkey"), arrayOf(Order.ORDER.PAYMENT_ID), com.emented.printingstudio.jooq.keys.PAYMENT_PKEY, arrayOf(Payment.PAYMENT.ID), true)
+val ORDER__ORDER_PRINT_SETTING_ID_FKEY: ForeignKey<OrderRecord, PrintSettingRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_print_setting_id_fkey"), arrayOf(Order.ORDER.PRINT_SETTING_ID), com.emented.printingstudio.jooq.keys.PRINT_SETTING_PKEY, arrayOf(PrintSetting.PRINT_SETTING.ID), true)
+val ORDER__ORDER_STATUS_FKEY: ForeignKey<OrderRecord, OrderStatusRecord> = Internal.createForeignKey(Order.ORDER, DSL.name("order_status_fkey"), arrayOf(Order.ORDER.STATUS), com.emented.printingstudio.jooq.keys.ORDER_STATUS_PKEY, arrayOf(OrderStatus.ORDER_STATUS.ID), true)
+val PAYMENT__PAYMENT_STATUS_FKEY: ForeignKey<PaymentRecord, PaymentStatusRecord> = Internal.createForeignKey(Payment.PAYMENT, DSL.name("payment_status_fkey"), arrayOf(Payment.PAYMENT.STATUS), com.emented.printingstudio.jooq.keys.PAYMENT_STATUS_PKEY, arrayOf(PaymentStatus.PAYMENT_STATUS.ID), true)
+val PAYMENT__PAYMENT_TYPE_FKEY: ForeignKey<PaymentRecord, PaymentTypeRecord> = Internal.createForeignKey(Payment.PAYMENT, DSL.name("payment_type_fkey"), arrayOf(Payment.PAYMENT.TYPE), com.emented.printingstudio.jooq.keys.PAYMENT_TYPE_PKEY, arrayOf(PaymentType.PAYMENT_TYPE.ID), true)
